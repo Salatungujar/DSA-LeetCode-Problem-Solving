@@ -1,0 +1,16 @@
+class Solution:
+    def maxProfit(self, prices: list[int]) -> int:
+        min_price = float("inf") # Shuru mein minimum price ko infinity maan liya
+        max_profit = 0  # Profit shuru mein 0 hai
+
+        for price in prices:
+            # Agar current price minimum price se kam hai, toh update kar do
+            if price < min_price:
+                min_price = price
+                
+            # Warna profit calculate karo aur max_profit ko update karo
+            elif price - min_price > max_profit:
+                max_profit = price - min_price
+
+        return max_profit
+
