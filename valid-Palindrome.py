@@ -1,19 +1,22 @@
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-        numStr = ""
-        for c in s:
-            if c.isalnum():
-                numStr += c.lower()
-        return numStr == numStr[::-1]
-
-# --- Add this part to test it in VS Coded ---
-if __name__ == "__main__":
-    sol = Solution()
-    
-    # Test case 1
-    test_str = "A man, a plan, a canal: Panama"
-    print(sol.isPalindrome(test_str))  # Expected output: True
-    
-    # Test case 2
-    test_str_2 = "race a car"
-    print(sol.isPalindrome(test_str_2))  # Expected output: False
+        left = 0
+        right = len(s) - 1
+        
+        while left < right:
+            # Agar left wala character alphanumeric nahi hai, toh aage badho
+            while left < right and not s[left].isalnum():
+                left += 1
+            
+            # Agar right wala character alphanumeric nahi hai, toh peeche jao
+            while left < right and not s[right].isalnum():
+                right -= 1
+            
+            # Case-insensitive comparison
+            if s[left].lower() != s[right].lower():
+                return False
+            
+            left += 1
+            right -= 1
+            
+        return True
