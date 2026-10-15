@@ -1,0 +1,34 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+
+        # Track the maximum diameter found so far using a mutable list.
+        res = [0]
+
+        def dfs(root):
+            # Base case: return -1 for null nodes so leaf nodes calculate 0 height.
+            if not root:
+                return -1
+
+            # Recursively find the height of the left and right subtrees.    
+            left = dfs(root.left)
+            right = dfs(root.right)
+
+            # Update the global maximum diameter (2 edges plus left and right heights)
+            res[0] = max(res[0], 2 + left + right)
+
+            # Return the height of the current node (1 plus the max of its subtrees)
+            return 1 + max(left, right)
+
+        # Start the depth-first search from the root node
+        dfs(root)
+        
+        # Return the maximum diameter recorded
+        return res[0]       
+        
+        
