@@ -1,0 +1,25 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        def dfs(node, maxVal):
+            if not node:
+                return 0
+
+            # Current node is good if its value >= max value seen on path so far    
+            count = 1 if node.val >= maxVal else 0
+
+            # Update the path maximum for children
+            maxVal = max(maxVal, node.val)
+            
+            # Accumulate counts from left and right subtrees
+            count += dfs(node.left, maxVal)
+            count += dfs(node.right, maxVal)
+
+            return count
+        # Start DFS with the root value as the initial path maximum
+        return dfs(root, root.val)
