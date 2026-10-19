@@ -1,0 +1,16 @@
+class Solution:
+    def removeDuplicates(self, nums: list[int]) -> int:
+        n = len(nums)
+        if n == 1:
+            return 1
+
+        i = 0        # Slow pointer for the last unique element
+        j = 1       # Fast pointer to scan the array
+        
+        while j < n:
+            if nums[j] != nums[i]:
+                i += 1      # Move slow pointer forward
+                nums[i], nums[j] = nums[j], nums[i]    # Bring unique element to the front
+            j += 1       # Advance fast pointer
+
+        return i + 1     # Return the count of unique elements
