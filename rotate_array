@@ -1,0 +1,14 @@
+class Solution:
+    def rotate(self, nums: list[int], k: int) -> None:
+        n = len(nums)
+        k = k%n    # Handle cases where k is greater than array length
+
+        def reverse(left, right):
+            while left < right:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+                right -= 1
+
+        reverse(n - k, n - 1)    # Reverse the last k elements
+        reverse(0, n - k - 1)    # Reverse the first remaining elements
+        reverse(0, n - 1)        # Reverse the entire array
