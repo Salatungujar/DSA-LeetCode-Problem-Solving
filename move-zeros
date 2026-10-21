@@ -1,0 +1,25 @@
+class Solution:
+    def moveZeroes(self, nums: list[int]) -> None:
+        n = len(nums)
+        i = 0
+
+        # Find the first occurrence of zero in the list
+        while i < len(nums):
+            if nums[i] == 0:
+                break
+            i += 1
+        
+        # Use a second pointer (j) to find non-zero elements 
+        # and swap them with the zero element at index i
+        j = i + 1
+        while j < len(nums):
+            # If we find a non-zero element and i is valid (pointing to a zero)
+            if nums[j] != 0:
+                # Swap the non-zero element with the zero at index i
+                nums[i], nums[j] = nums[j], nums[i]
+                # Advance i to the next position (which will be another zero)
+                i += 1
+            j += 1
+        
+        
+        
