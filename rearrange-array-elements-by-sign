@@ -1,0 +1,22 @@
+class Solution:
+    def rearrangeArray(self, nums: list[int]) -> list[int]:
+        n = len(nums)
+
+        # Result array to store rearranged numbers
+        result = [0] * n 
+         
+        # Pointers for placing positive (even indices) and negative (odd indices) numbers
+        posIndex, negIndex = 0, 1
+    
+        for i in range(0, n):
+            # If the number is positive or zero, place it at the next available even index
+            if nums[i] >= 0:
+                result[posIndex] = nums[i]
+                posIndex += 2
+
+            # If the number is negative, place it at the next available odd index    
+            else:
+                result[negIndex] = nums[i]
+                negIndex += 2
+        return result 
+    
