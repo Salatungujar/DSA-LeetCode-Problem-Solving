@@ -1,0 +1,26 @@
+class Solution:
+    def merge(self, arr1: list[int], m: int, arr2: list[int], n: int) -> None:
+        i, j = 0, 0
+        merged = []
+
+        # Traverse both arrays and pick the smaller element
+        while i < m and j < n:
+            if arr1[i] < arr2[j]:
+                merged.append(arr1[i])
+                i += 1
+            else:
+                merged.append(arr2[j])
+                j += 1
+        
+        # Append any remaining elements from arr1
+        while i < m:
+            merged.append(arr1[i])
+            i += 1
+        
+        # Append any remaining elements from arr2
+        while j < n:
+            merged.append(arr2[j])
+            j += 1
+
+        # Overwrite arr1 in-place with your sorted elements
+        arr1[:] = merged
