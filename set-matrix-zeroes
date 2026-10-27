@@ -1,0 +1,22 @@
+class Solution:
+    def setZeroes(self, matrix: list[list[int]]) -> None:
+        # Get the number of rows and columns in the matrix
+        r = len(matrix)
+        c = len(matrix[0])
+
+        # Initialize tracking arrays to mark which rows and columns contain zeros
+        rowtrack = [0 for _ in range(r)]
+        coltrack = [0 for _ in range(c)]
+
+        # First pass: Iterate through the matrix to find all zeros and mark their rows and columns
+        for i in range(0, r):
+            for j in range(0, c):
+                if matrix[i][j] == 0:
+                    rowtrack[i] = -1
+                    coltrack[j] = -1
+
+        # Second pass: Update the matrix elements to zero based on the tracking arrays
+        for i in range(0, r):
+            for j in range(0, c):
+                if rowtrack[i] == -1 or coltrack[j] == -1:
+                    matrix[i][j] = 0
