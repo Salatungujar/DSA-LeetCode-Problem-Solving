@@ -1,0 +1,33 @@
+class Solution:
+    def search(self, nums: list[int], target: int) -> bool:
+        n = len(nums)
+        low = 0
+        high = n - 1
+        while low <= high:
+            mid = (low + high)//2
+
+            if nums[mid] == target:
+                return True
+
+            # Handle duplicates when low, mid, and high are all identical
+            if nums[low] == nums[mid] == nums[high]:
+                low += 1
+                high -= 1
+                continue # Skip to the next loop iteration    
+                
+            # Right half is sorted
+            if nums[mid] <= nums[high]:
+                # Critical Fix: target can be equal to nums[high], and moving pointers must reduce search space properly
+                if nums[mid] <= target and target <= nums[high]:
+                    low = mid + 1
+                else:
+                    high = mid - 1
+            # Left half is sorted
+            else:
+                # Critical Fix: target can be equal to nums[low], and moving pointers must reduce search space properly
+                if nums[low] <= target and target <= nums[mid]:
+                    high = mid - 1
+                else:
+                    low = mid + 1
+
+        return False
