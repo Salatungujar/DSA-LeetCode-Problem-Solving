@@ -1,0 +1,33 @@
+class MedianFinder:
+    def __init__(self):
+        # small is a max-heap (stores the smaller half of numbers, inverted to min-heap via negative values)
+        # large is a min-heap (stores the larger half of numbers)
+        self.small, self.large = [], [] 
+
+    def addNum(self, num: int) -> None:
+        # 1. Always push to the max-heap first
+        heapq.heappush(self.small, -1 * num)
+        
+        # 2. Make sure every elements in small are <= every elements in large
+        if self.small and self.large and (-1 * self.small[0]) > self.large[0]:
+            val = -1 * heapq.heappop(self.small)
+            heapq.heappush(self.large, val)
+            
+        # 3. Balance sizes: small can have at most 1 more element than large
+        if len(self.small) > len(self.large) + 1:
+            val = -1 * heapq.heappop(self.small)
+            heapq.heappush(self.large, val)
+            
+        if len(self.large) > len(self.small):
+            val = heapq.heappop(self.large)
+            heapq.heappush(self.small, -1 * val)
+
+    def findMedian(self) -> float:
+        # If small has more elements, median is its top element
+        if len(self.small) > len(self.large):
+            return -1 * self.small[0]
+        # If large has more elements (though balancing usually prevents this, keeping it robust)
+        if len(self.large) > len(self.small):
+            return self.large[0]
+        # If even, average the top elements of both heaps
+        return (-1 * self.small[0] + self.large[0]) / 2
