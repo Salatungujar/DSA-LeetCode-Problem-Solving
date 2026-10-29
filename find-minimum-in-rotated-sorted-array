@@ -1,18 +1,19 @@
 class Solution:
     def findMin(self, nums: list[int]) -> int:
-        n = len(nums)
-        left = 0
-        right = n - 1
-        while left < right:
-            mid = left + (right - left) // 2
+        low = 0
+        high = len(nums) - 1
+        mini = float("inf")
 
-            # If mid element is greater than the right-most element, 
-            # the minimum must be in the right half.
-            if nums[mid] > nums[right]:
-                left = mid + 1
-                
-            # Otherwise, the minimum is in the left half (including mid). 
+        while low <= high:
+            mid = (low + high)//2
+
+            # If the right half is sorted, update mini and search the left half
+            if nums[mid] <= nums[high]:
+                mini = min(mini, nums[mid])
+                high = mid - 1
+            # If the left half is sorted, update mini and search the right half    
             else:
-                right = mid
+                mini = min(mini, nums[low])
+                low = mid + 1
 
-        return nums[left]
+        return mini
