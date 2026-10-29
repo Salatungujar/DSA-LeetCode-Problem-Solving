@@ -1,0 +1,32 @@
+class Solution:
+    def search(self, nums: list[int], target: int) -> int:
+        n = len(nums)
+        low = 0
+        high = n - 1
+        
+        # Perform binary search
+        while low <= high:
+            mid = (low + high) // 2
+            
+            # If target is found at mid, return its index
+            if nums[mid] == target:
+                return mid
+            
+            # Check if the right half of the array is sorted
+            if nums[mid] <= nums[high]:
+                # Check if the target lies within the sorted right half
+                if nums[mid] <= target and target <= nums[high]:
+                    low = mid + 1  # Narrow search to the right half
+                else:
+                    high = mid - 1 # Narrow search to the left half
+            
+            # Otherwise, the left half of the array must be sorted
+            else:
+                # Check if the target lies within the sorted left half
+                if nums[low] <= target and target <= nums[mid]:
+                    high = mid - 1 # Narrow search to the left half
+                else:
+                    low = mid + 1  # Narrow search to the right half
+                    
+        # Return -1 if the target is not present in the array
+        return -1
