@@ -1,0 +1,39 @@
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        prereq = {c: [] for c in range(numCourses)}
+        for crs, pre in prerequisites:
+            prereq[crs].append(pre)
+
+        output = []
+        visit, cycle = set(), set()
+        
+        def dfs(crs):
+            # A course cannot be completed if it requires itself.
+            if crs in cycle:
+                return False
+            # Prevents re-traversing sub-graphs that are already verified to be safe.
+            if crs in visit:
+                return True
+
+            # Locks the node into the active traversal path to catch back-edges.
+            cycle.add(crs)
+            for pre in prereq[crs]:
+                if dfs(pre) == False:
+                    return False
+
+            # Unlocks the node because we are done exploring this specific path.
+            cycle.remove(crs)
+            
+            # Ensures prerequisites are executed before this course (post-order collection).
+            output.append(crs)
+            # Permanently registers this sub-graph as safe and fully processed.
+            visit.add(crs)
+            
+            # Signals to the caller that this path contains no invalid loops.
+            return True
+        
+        # Ensures independent, disconnected course tracks are all processed.
+        for c in range(numCourses):
+            if dfs(c) == False:
+                return []
+        return output
