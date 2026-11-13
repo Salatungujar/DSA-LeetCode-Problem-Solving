@@ -1,0 +1,29 @@
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        if not n:
+            return True
+        
+        # Build an undirected adjacency list
+        adj = {i: [] for i in range(n)}
+        for n1, n2 in edges:
+            adj[n1].append(n2)
+            adj[n2].append(n1)
+
+        visit = set()
+
+        def dfs(i, prev):
+            # Cycle detected if we revisit an already visited node
+            if i in visit:
+                return False
+            
+            visit.add(i)
+            for j in adj[i]:
+                # Skip the parent node we just came from to avoid false cycle detection
+                if j == prev:
+                    continue
+                if not dfs(j, i):
+                    return False
+            return True
+
+        # A valid tree must have no cycles AND all nodes must be connected
+        return dfs(0, -1) and n == len(visit)
