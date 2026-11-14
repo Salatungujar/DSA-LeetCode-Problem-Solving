@@ -1,0 +1,35 @@
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        if endWord not in wordList:
+            return 0
+
+        # Map wildcard patterns (e.g., "*ot") to all matching words
+        nei = collections.defaultdict(list)
+        wordList.append(beginWord)
+        for word in wordList:
+            for j in range(len(word)):
+                pattern = word[:j] + "*" + word[j + 1:]
+                nei[pattern].append(word)
+
+        # Standard BFS setup
+        visit = set([beginWord])
+        q = deque([beginWord])
+        res = 1
+
+        while q:
+            for i in range(len(q)):
+                word = q.popleft()
+                if word == endWord:
+                    return res
+
+                # Must be indented inside the 'for i' loop to check all words in this level
+                for j in range(len(word)):
+                    pattern = word[:j] + "*" + word[j + 1:]
+                    for neiWord in nei[pattern]:
+                        if neiWord not in visit:
+                            visit.add(neiWord)
+                            q.append(neiWord)
+            res += 1
+
+        # Return 0 if the queue empties without reaching endWord
+        return 0
