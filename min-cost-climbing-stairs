@@ -1,0 +1,11 @@
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        # 0 represents the top floor
+        cost.append(0)
+        
+        # Work backwards, adding the cheapest next step's cost
+        for i in range(len(cost) - 3, -1, -1):
+            cost[i] += min(cost[i + 1], cost[i + 2])
+            
+        # Can start at index 0 or 1
+        return min(cost[0], cost[1])
