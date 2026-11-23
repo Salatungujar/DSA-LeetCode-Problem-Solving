@@ -1,0 +1,16 @@
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        # Handle single-house edge case (nums[0]), then solve two linear subproblems:
+        # 1. Exclude first house: nums[1:]
+        # 2. Exclude last house: nums[:-1]
+        return max(nums[0], self.helper(nums[1:]), self.helper(nums[:-1]))
+    
+    def helper(self, nums):
+        # rob1 = max loot up to two houses ago; rob2 = max loot up to previous house
+        rob1, rob2 = 0, 0
+        for n in nums:
+            # Choose between robbing current house (n + rob1) or skipping it (rob2)
+            newRob = max(n + rob1, rob2)
+            rob1 = rob2
+            rob2 = newRob
+        return rob2
