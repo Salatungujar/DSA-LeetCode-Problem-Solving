@@ -1,0 +1,12 @@
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        # Track max loot from 2 houses ago (rob1) and previous house (rob2)
+        rob1, rob2 = 0, 0
+
+        for n in nums:
+            # Decide whether to rob current house (n + rob1) or skip it (rob2)
+            temp = max(n + rob1, rob2)
+            rob1 = rob2
+            rob2 = temp
+
+        return rob2
